@@ -1,4 +1,6 @@
-#Mix
+# Snake
+Class Game - snake
+
 ###Generate CSS file 
 
 Install sass if need
@@ -27,3 +29,4 @@ Some instruction
 _Will be added in the feature_
 
 ####Use `npm start` to start the project 
+
