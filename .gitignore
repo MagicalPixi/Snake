@@ -4,7 +4,7 @@ bower_components
 *.swp
 *.iml
 /dist/
-.idea/
+.idea/*
 *.ipr
 *.iws
 /out/
