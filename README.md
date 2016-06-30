@@ -1,5 +1,5 @@
 # Snake
-Class Game - snake
+Classic Game - snake
 
 ###Generate CSS file 
 
