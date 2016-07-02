@@ -30,6 +30,7 @@
     "default-share-text": "这是你们熟悉的扫雷，快来体验",
     "game-title": "熟悉的扫雷",
     "wechat-auth": false,
-    "default-share-image": "http://o8c60jr2y.bkt.clouddn.com/mine.png"
+    "default-share-image": "http://o8c60jr2y.bkt.clouddn.com/mine.png",
+    "name": "mine"
   }
 }
