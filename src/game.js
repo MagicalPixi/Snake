@@ -11,8 +11,8 @@ var clearGame = function() {
 }
 
 var initGame = function() {
-  initMineArray()
-  initBlocks()
+  //initMineArray()
+  //initBlocks()
 }
 
 var initMineArray = function () {
@@ -76,7 +76,7 @@ var showBlock = function(indexPath) {
 }
 
 var showOtherBlock = function(mine) {
-  var array = [{x: -1, y: 0}, 
+  var array = [{x: -1, y: 0},
               {x:0, y: -1}, {x: 0, y: 1},
               {x: 1, y: 0}]
   for(var index in array) {
@@ -99,7 +99,7 @@ var caculateMine = function(mine) {
     var currentMine = {x: mine.x + a.x,
                        y: mine.y + a.y}
     if(currentMine.x >= 0 && currentMine.y >= 0 && checkMine(currentMine)) {
-        count ++ 
+        count ++
     }
   }
   return count

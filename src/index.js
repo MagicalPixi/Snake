@@ -10,28 +10,33 @@ var renderer = PIXI.autoDetectRenderer(640, aspect * 640, {
 });
 document.body.appendChild(renderer.view)
 loader.add(params.png, 'png').load(function() {
-  var game = require('./game')
-  game.resetGame()
-  var stage = new PIXI.Container() 
-  game.y = 100
-  stage.addChild(game)
-  var reset = require('./sprites/reset')(function() {
-    game.resetGame()
-    game.removeMask()
-  })
-  var life = require('./sprites/life')
-  stage.addChild(life)
-  var mask = require('./sprites/mask')
-  mask.visible = false
-  stage.overMask = mask
-  var success = require('./sprites/success')
-  success.visible = false
-  stage.successMask = success
-  stage.addChild(mask)
-  stage.addChild(success)
-  stage.addChild(reset)
-  var start = require('./sprites/start')
-  stage.addChild(start)
+
+  var snake = require('./snake')
+  //var game = require('./game')
+  //game.resetGame()
+  var stage = new PIXI.Container()
+  //snake.y = 100
+  stage.addChild(snake)
+
+  var background = require('./sprites/background');
+  stage.addChild(background);
+  //var reset = require('./sprites/reset')(function() {
+  //  game.resetGame()
+  //  game.removeMask()
+  //})
+  //var life = require('./sprites/life')
+  //stage.addChild(life)
+  //var mask = require('./sprites/mask')
+  //mask.visible = false
+  //stage.overMask = mask
+  //var success = require('./sprites/success')
+  //success.visible = false
+  //stage.successMask = success
+  //stage.addChild(mask)
+  //stage.addChild(success)
+  //stage.addChild(reset)
+  //var start = require('./sprites/start')
+  //stage.addChild(start)
   stage.render = function() {
     stage.children.map(function(child) {
       if(child.render) {
