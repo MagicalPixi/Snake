@@ -2,9 +2,74 @@
  * Created by zhouchunjie on 16/7/2.
  */
 var params = require('./params')
+var background = require('./sprites/background');
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
+var clearGame = function () {
+    stage.removeChildren();
+    stage.score = 0;
+    stage.length = 5;
+    stage.speed = 1;
+    stage.snake = new Map();
+    background.setLength(stage.length);
+    background.setScore(stage.score);
+    background.setSpeed(stage.speed);
+};
+
+var initGame = function () {
+    initSnake();
+    initApple();
+};
+
+//初始化贪吃蛇开始的位置
+var initSnake = function () {
+    var x = parseInt(Math.random() * 8 + 1);//x的位置为 1 - 8
+    var y = parseInt(Math.random() * 16 + 1);//y的位置为 1 - 16
+    var position = {
+        x: x,
+        y: y
+    };
+    stage.snake.put("HEAD", position);
+    randomDirection();
+}
+
+var randomDirection = function(){
+    var dic = parseInt(Math.random()*3) // 0~3
+    switch(dic){
+        case 0://右
+            stage.direction = {
+                x:1,
+                y:0
+            };
+        case 1://下
+            stage.direction = {
+                x:0,
+                y:1
+            };
+        case 2://左
+            stage.direction = {
+                x:-1,
+                y:0
+            };
+        case 3://上
+            stage.direction = {
+                x:0,
+                y:-1
+            }
+    };
+}
+//初始化苹果位置
+var initApple = function () {
+    var x = parseInt(Math.random() * 10);//x的位置为 1 - 8
+    var y = parseInt(Math.random() * 18);//y的位置为 1 - 16
+    checkSnakePosition();
+}
+
+var checkSnakePosition = function () {
+    //TODO check snake position
+}
+
 var container = new PIXI.Container();
 
 stage.addChild(container);
