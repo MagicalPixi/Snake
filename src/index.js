@@ -10,16 +10,17 @@ var renderer = PIXI.autoDetectRenderer(640, aspect * 640, {
 });
 document.body.appendChild(renderer.view)
 loader.add(params.png, 'png').load(function() {
-
-  var snake = require('./snake')
   //var game = require('./game')
   //game.resetGame()
   var stage = new PIXI.Container()
-  //snake.y = 100
-  stage.addChild(snake)
 
   var background = require('./sprites/background');
   stage.addChild(background);
+
+  var snake = require('./snake')
+  //snake.y = 100
+  stage.addChild(snake)
+
   //var reset = require('./sprites/reset')(function() {
   //  game.resetGame()
   //  game.removeMask()
