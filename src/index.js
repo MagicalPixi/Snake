@@ -19,6 +19,7 @@ loader.add(params.png, 'png').load(function() {
 
   var snake = require('./snake')
   //snake.y = 100
+  snake.initGame();
   stage.addChild(snake)
 
   //var reset = require('./sprites/reset')(function() {

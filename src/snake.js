@@ -1,45 +1,24 @@
 /**
  * Created by zhouchunjie on 16/7/2.
  */
-var params = require('./params')
-var background = require('./sprites/background');
-var blockGenerator = require('./sprites/blockGenerator.js')
+var params = require('./params');
+var blockGenerator = require('./sprites/blockGenerator.js');
+var apple = require('./sprites/apple/index.js');
 
-var width = 44.5;
-var topMargin = 30;
-var sideMargin = 20;
 // create the root of the scene graph
 var stage = new PIXI.Container();
-var clearGame = function () {
-    stage.removeChildren();
-    stage.score = 0;
-    stage.length = 5;
-    stage.speed = 1;
-    stage.snake = new Map();
-    background.setLength(stage.length);
-    background.setScore(stage.score);
-    background.setSpeed(stage.speed);
-};
 
-var initGame = function () {
+stage.initGame = function () {
     initSnake();
-    initApple();
+    var appleBlock = apple.initApple();
+    stage.addChild(appleBlock);
 };
 
-//初始化贪吃蛇开始的位置
-var initSnake = function () {
-    stage.score = 0;
-    stage.length = 5;
-    stage.speed = 1;
-    stage.snake = new Map();
-    var x = parseInt(Math.random() * 8 + 1);//x的位置为 1 - 8
-    var y = parseInt(Math.random() * 16 + 1);//y的位置为 1 - 16
-    var position = {
-        x: x,
-        y: y
-    };
-    stage.snake.put("HEAD", position);
-    randomDirection();
+var realPosition = function (position) {
+    return {
+        x: params.contant.sideMargin + params.contant.width * position.x,
+        y: params.contant.topMargin + params.contant.width * position.y
+    }
 }
 
 var randomDirection = function () {
@@ -68,38 +47,23 @@ var randomDirection = function () {
     }
     ;
 }
-//初始化苹果位置
-var initApple = function () {
-    var x = parseInt(Math.random() * 10);//x的位置为 1 - 8
-    var y = parseInt(Math.random() * 18);//y的位置为 1 - 16
-    stage.apple = {
+//初始化贪吃蛇开始的位置
+var initSnake = function () {
+    stage.score = 0;
+    stage.length = 5;
+    stage.speed = 1;
+    var snake = new Object();
+    var x = parseInt(Math.random() * 8 + 1);//x的位置为 1 - 8
+    var y = parseInt(Math.random() * 16 + 1);//y的位置为 1 - 16
+    var position = {
         x: x,
         y: y
-    }
-    checkSnakePosition();
-
-    //生成苹果
-    var apple = blockGenerator(0x0F0F0F, position(stage.apple));
-    console.log(position(stage.apple));
-    stage.addChild(apple);
-};
-
-var position = function (position) {
-    return {
-        x: topMargin + width * position.x,
-        y: sideMargin + width * position.y
-    }
-}
-
-var checkSnakePosition = function () {
-    //TODO check snake position
-    //var array = stage.snake.keys();
-    //for (var i in array) {
-    //    var position = stage.snake.get(array[i]);
-    //    if (stage.apple.position.x === position.x && stage.apple.position.y === position.y) {
-    //        initApple();
-    //    }
-    //}
+    };
+    snake.HEAD= position;
+    //randomDirection();
+    console.log(position);
+    var snakeBlock = blockGenerator(params.color.black, realPosition(position));
+    stage.addChild(snakeBlock);
 };
 
 var container = new PIXI.Container();
@@ -123,5 +87,4 @@ stage.addChild(container);
  */
 //container.x = 100;
 //container.y = 60;
-initApple();
 module.exports = stage

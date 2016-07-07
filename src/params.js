@@ -3,11 +3,20 @@ var json = []
 var color = {
   blue:0x415C71,
   red:0xF06050,
-  yellow: 0xF7CD1F
-}
+  yellow: 0xF7CD1F,
+  black:0x0F0F0F,
+  cyan:0x97A581
+};
+
+var contant = {
+  width : 44.5,
+  topMargin : 30,
+  sideMargin : 20
+};
 
 module.exports = {
   png: png,
   json: json,
-  color: color
-}
+  color: color,
+  contant: contant
+};
