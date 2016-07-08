@@ -8,6 +8,9 @@ var apple = require('./sprites/apple/index.js');
 // create the root of the scene graph
 var stage = new PIXI.Container();
 
+var snakeStage = new PIXI.Container();
+stage.addChild(snakeStage);
+
 stage.initGame = function () {
     initSnake();
     var appleBlock = apple.initApple();
@@ -49,6 +52,7 @@ var randomDirection = function () {
 }
 //初始化贪吃蛇开始的位置
 var initSnake = function () {
+    snakeStage.removeChildren();
     stage.score = 0;
     stage.length = 5;
     stage.speed = 1;
@@ -59,11 +63,11 @@ var initSnake = function () {
         x: x,
         y: y
     };
-    snake.HEAD= position;
+    snake.HEAD = position;
     //randomDirection();
     console.log(position);
     var snakeBlock = blockGenerator(params.color.black, realPosition(position));
-    stage.addChild(snakeBlock);
+    snakeStage.addChild(snakeBlock);
 };
 
 var container = new PIXI.Container();
