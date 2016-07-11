@@ -21,11 +21,7 @@ loader.add(params.png, 'png').load(function() {
   snake.initGame();
   stage.addChild(snake);
   //snake.y = 100
-  setInterval(function () {
-    stage.removeChild(snake);
-    snake.move();
-    stage.addChild(snake);
-  },1000);
+  snake.start();
 
   //var reset = require('./sprites/reset')(function() {
   //  game.resetGame()

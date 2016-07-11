@@ -19,18 +19,33 @@ stage.initGame = function () {
 
 stage.move = function(){
     console.log("move");
-    snakeStage.removeChildren();
-    var snake = stage.snake;
-    var position = snake.HEAD;
-    var direction = stage.direction;
 
+    var snake = stage.snake;
+    var direction = stage.direction;
+    console.log(snake.HEAD);
     var newPosition = {
-        x:position.x + direction.x,
-        y:position.y + direction.y
+        x:snake.HEAD.x + direction.x,
+        y:snake.HEAD.y + direction.y
     };
+    if(newPosition.x <0 || newPosition.x >9 || newPosition.y < 0 || newPosition.y >17){
+        gameOver();
+        return;
+    }
     snake.HEAD = newPosition;
+    snakeStage.removeChildren();
     var snakeBlock = blockGenerator(params.color.black, realPosition(newPosition));
     snakeStage.addChild(snakeBlock);
+};
+
+stage.start = function () {
+    interval = setInterval(function () {
+        stage.move();
+    },1000);
+}
+
+var gameOver = function () {
+    console.log("game over");
+    clearInterval(interval);
 }
 
 var realPosition = function (position) {
@@ -41,28 +56,29 @@ var realPosition = function (position) {
 }
 
 var randomDirection = function () {
-    var dic = parseInt(Math.random() * 3) // 0~3
+    var dic = parseInt(Math.random() * 4) // 0~3
     switch (dic) {
         case 0://右
             stage.direction = {
                 x: 1,
                 y: 0
-            };
+            };break;
         case 1://下
             stage.direction = {
                 x: 0,
                 y: 1
-            };
+            };break;
         case 2://左
             stage.direction = {
                 x: -1,
                 y: 0
-            };
+            };break;
         case 3://上
+        default:
             stage.direction = {
                 x: 0,
                 y: -1
-            }
+            };break;
     };
 }
 //初始化贪吃蛇开始的位置
