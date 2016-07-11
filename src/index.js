@@ -18,12 +18,14 @@ loader.add(params.png, 'png').load(function() {
   stage.addChild(background);
 
   var snake = require('./snake')
+  snake.initGame();
+  stage.addChild(snake);
   //snake.y = 100
-  setTimeout(function () {
+  setInterval(function () {
     stage.removeChild(snake);
-    snake.initGame();
+    snake.move();
     stage.addChild(snake);
-  },10);
+  },1000);
 
   //var reset = require('./sprites/reset')(function() {
   //  game.resetGame()

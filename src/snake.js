@@ -17,6 +17,22 @@ stage.initGame = function () {
     stage.addChild(appleBlock);
 };
 
+stage.move = function(){
+    console.log("move");
+    snakeStage.removeChildren();
+    var snake = stage.snake;
+    var position = snake.HEAD;
+    var direction = stage.direction;
+
+    var newPosition = {
+        x:position.x + direction.x,
+        y:position.y + direction.y
+    };
+    snake.HEAD = newPosition;
+    var snakeBlock = blockGenerator(params.color.black, realPosition(newPosition));
+    snakeStage.addChild(snakeBlock);
+}
+
 var realPosition = function (position) {
     return {
         x: params.contant.sideMargin + params.contant.width * position.x,
@@ -47,8 +63,7 @@ var randomDirection = function () {
                 x: 0,
                 y: -1
             }
-    }
-    ;
+    };
 }
 //初始化贪吃蛇开始的位置
 var initSnake = function () {
@@ -64,7 +79,8 @@ var initSnake = function () {
         y: y
     };
     snake.HEAD = position;
-    //randomDirection();
+    stage.snake = snake;
+    randomDirection();
     console.log(position);
     var snakeBlock = blockGenerator(params.color.black, realPosition(position));
     snakeStage.addChild(snakeBlock);
