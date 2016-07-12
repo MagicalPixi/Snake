@@ -11,10 +11,12 @@ var stage = new PIXI.Container();
 var snakeStage = new PIXI.Container();
 stage.addChild(snakeStage);
 
+var appleStage = new PIXI.Container();
+stage.addChild(appleStage);
+
 stage.initGame = function () {
     initSnake();
-    var appleBlock = apple.initApple();
-    stage.addChild(appleBlock);
+    initApple();
 };
 
 stage.move = function () {
@@ -58,6 +60,9 @@ stage.move = function () {
         snakeStage.addChild(snakeBlock);
     }
 
+    if (newHeadPosition.x === applePosition.x && newHeadPosition.y ===applePosition.y){
+        initApple();
+    }
 };
 
 stage.start = function () {
@@ -139,6 +144,12 @@ var initSnake = function () {
     var snakeBlock = blockGenerator(params.color.black, realPosition(position));
     snakeStage.addChild(snakeBlock);
 };
+
+var initApple = function(){
+    appleStage.removeChildren();
+    var appleBlock = apple.initApple();
+    appleStage.addChild(appleBlock);
+}
 
 var container = new PIXI.Container();
 
