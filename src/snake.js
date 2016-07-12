@@ -3,7 +3,7 @@
  */
 var params = require('./params');
 var blockGenerator = require('./sprites/blockGenerator.js');
-var apple = require('./sprites/apple/index.js');
+var apple = require('./sprites/apple/index');
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
@@ -17,31 +17,63 @@ stage.initGame = function () {
     stage.addChild(appleBlock);
 };
 
-stage.move = function(){
-    console.log("move");
-
+stage.move = function () {
     var snake = stage.snake;
     var direction = stage.direction;
-    console.log(snake.HEAD);
-    var newPosition = {
-        x:snake.HEAD.x + direction.x,
-        y:snake.HEAD.y + direction.y
+
+    var newHeadPosition = {
+        x: snake.HEAD.x + direction.x,
+        y: snake.HEAD.y + direction.y
     };
-    if(newPosition.x <0 || newPosition.x >9 || newPosition.y < 0 || newPosition.y >17){
+    if (newHeadPosition.x < 0 || newHeadPosition.x > 9 || newHeadPosition.y < 0 || newHeadPosition.y > 17) {
         gameOver();
         return;
     }
-    snake.HEAD = newPosition;
+    var applePosition = apple.getApplePosition();
+    if (newHeadPosition.x === applePosition.x && newHeadPosition.y ===applePosition.y){
+        stage.length ++;
+    }
     snakeStage.removeChildren();
-    var snakeBlock = blockGenerator(params.color.black, realPosition(newPosition));
-    snakeStage.addChild(snakeBlock);
+    //新增头部
+    var newKey = newHeadPosition.x.toString() + newHeadPosition.y.toString();
+    snake[newKey] = snake.HEAD;
+    snake.HEAD = newHeadPosition;
+
+    if (stage.realLength === stage.length) {
+        //减去最后一位
+        for (var key in snake) {
+            var position = snake[key];
+            var nextPositionKey = position.x.toString() + position.y.toString();
+            if (!snake.hasOwnProperty(nextPositionKey)) {
+                delete snake[key];
+                break;
+            }
+        }
+    }else if (stage.realLength < stage.length) {
+        stage.realLength++;
+    }
+
+    for (var key in snake) {
+        var snakeBlock = blockGenerator(params.color.black, realPosition(snake[key]));
+        snakeStage.addChild(snakeBlock);
+    }
+
 };
 
 stage.start = function () {
     interval = setInterval(function () {
         stage.move();
-    },1000);
-}
+    }, 1000);
+};
+
+stage.checkSnakePosition = function(position){
+    for (var key in stage.snake){
+        if (stage.snake[key].x === position.x && stage.snake[key].y === position.y){
+            return true;
+        }
+    }
+    return false;
+};
 
 var gameOver = function () {
     console.log("game over");
@@ -62,29 +94,35 @@ var randomDirection = function () {
             stage.direction = {
                 x: 1,
                 y: 0
-            };break;
+            };
+            break;
         case 1://下
             stage.direction = {
                 x: 0,
                 y: 1
-            };break;
+            };
+            break;
         case 2://左
             stage.direction = {
                 x: -1,
                 y: 0
-            };break;
+            };
+            break;
         case 3://上
         default:
             stage.direction = {
                 x: 0,
                 y: -1
-            };break;
-    };
+            };
+            break;
+    }
+    ;
 }
 //初始化贪吃蛇开始的位置
 var initSnake = function () {
     snakeStage.removeChildren();
     stage.score = 0;
+    stage.realLength = 1;
     stage.length = 5;
     stage.speed = 1;
     var snake = new Object();
@@ -106,21 +144,4 @@ var container = new PIXI.Container();
 
 stage.addChild(container);
 
-//for (var j = 0; j < 5; j++) {
-//
-//    for (var i = 0; i < 5; i++) {
-//        var bunny = new PIXI.Text('ABC',{font : '36px Arial', fill :"#0F0F0F", align : 'center'})
-//        bunny.x = 40 * i;
-//        bunny.y = 40 * j;
-//        container.addChild(bunny);
-//    };
-//};
-/*
- * All the bunnies are added to the container with the addChild method
- * when you do this, all the bunnies become children of the container, and when a container moves,
- * so do all its children.
- * This gives you a lot of flexibility and makes it easier to position elements on the screen
- */
-//container.x = 100;
-//container.y = 60;
 module.exports = stage

@@ -3,7 +3,6 @@
  */
 
 var blockGenerator = require('../blockGenerator.js');
-var snake = require('../../snake.js');
 var params = require('../../params');
 
 var stage = new PIXI.Container();
@@ -17,14 +16,7 @@ var realPosition = function (position) {
 
 //初始化苹果位置
 stage.initApple = function () {
-    var x = parseInt(Math.random() * 10);//x的位置为 0-9
-    var y = parseInt(Math.random() * 18);//y的位置为 0-17
-    stage.apple = {
-        x: x,
-        y: y
-    }
-    checkSnakePosition();
-
+    generateApplePosition();
     //生成苹果
     var apple = blockGenerator(params.color.black, realPosition(stage.apple));
     console.log(realPosition(stage.apple));
@@ -32,15 +24,23 @@ stage.initApple = function () {
     return apple;
 };
 
-var checkSnakePosition = function () {
-    //TODO check snake position
-    //var array = stage.snake.keys();
-    //for (var i in array) {
-    //    var position = stage.snake.get(array[i]);
-    //    if (stage.apple.position.x === position.x && stage.apple.position.y === position.y) {
-    //        initApple();
-    //    }
-    //}
+var generateApplePosition = function () {
+    var snake = require('../../snake');
+    var hasExisted = true;
+    while (hasExisted) {
+        var x = parseInt(Math.random() * 10);//x的位置为 0-9
+        var y = parseInt(Math.random() * 18);//y的位置为 0-17
+        stage.apple = {
+            x: x,
+            y: y
+        }
+        hasExisted = snake.checkSnakePosition(stage.apple);
+    }
+
 };
+
+stage.getApplePosition = function(){
+    return stage.apple;
+}
 
 module.exports = stage
