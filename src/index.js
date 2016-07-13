@@ -75,14 +75,12 @@ loader.add(params.png, 'png').load(function () {
 });
 
 var touchStart = function(event){
-    //console.log(event.data.global);
     var newPosition = event.data.global;
     touchStartPos.x = newPosition.x;
     touchStartPos.y = newPosition.y;
 };
 
 var touchEnd = function(event){
-    //console.log(event.data.global);
     var newPosition = event.data.global;
     touchEndPos.x = newPosition.x;
     touchEndPos.y = newPosition.y;

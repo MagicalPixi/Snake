@@ -19,8 +19,6 @@ stage.initApple = function () {
     generateApplePosition();
     //生成苹果
     var apple = blockGenerator(params.color.black, realPosition(stage.apple));
-    console.log(realPosition(stage.apple));
-    console.log(stage.apple);
     return apple;
 };
 
