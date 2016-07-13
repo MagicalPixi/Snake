@@ -22,7 +22,7 @@ stage.initGame = function () {
 stage.move = function () {
     var snake = stage.snake;
     var direction = stage.direction;
-
+    //生成新蛇头位置
     var newHeadPosition = {
         x: snake.HEAD.x + direction.x,
         y: snake.HEAD.y + direction.y
@@ -31,9 +31,10 @@ stage.move = function () {
         gameOver();
         return;
     }
+    //获取苹果位置,如果蛇头与苹果重合,蛇长度+1
     var applePosition = apple.getApplePosition();
-    if (newHeadPosition.x === applePosition.x && newHeadPosition.y ===applePosition.y){
-        stage.length ++;
+    if (newHeadPosition.x === applePosition.x && newHeadPosition.y === applePosition.y) {
+        stage.length++;
     }
     snakeStage.removeChildren();
     //新增头部
@@ -51,19 +52,26 @@ stage.move = function () {
                 break;
             }
         }
-    }else if (stage.realLength < stage.length) {
+    } else if (stage.realLength < stage.length) {
         stage.realLength++;
     }
-
+    //绘制蛇
     for (var key in snake) {
         var snakeBlock = blockGenerator(params.color.black, realPosition(snake[key]));
         snakeStage.addChild(snakeBlock);
     }
-
-    if (newHeadPosition.x === applePosition.x && newHeadPosition.y ===applePosition.y){
+    //蛇头吃完苹果,苹果重新生成
+    if (newHeadPosition.x === applePosition.x && newHeadPosition.y === applePosition.y) {
         initApple();
     }
 };
+
+stage.turnTo = function (direction) {
+    if (direction.x === 0 && direction.y === 0) {
+        return;
+    }
+    stage.direction = direction;
+}
 
 stage.start = function () {
     interval = setInterval(function () {
@@ -71,9 +79,9 @@ stage.start = function () {
     }, 1000);
 };
 
-stage.checkSnakePosition = function(position){
-    for (var key in stage.snake){
-        if (stage.snake[key].x === position.x && stage.snake[key].y === position.y){
+stage.checkSnakePosition = function (position) {
+    for (var key in stage.snake) {
+        if (stage.snake[key].x === position.x && stage.snake[key].y === position.y) {
             return true;
         }
     }
@@ -140,12 +148,12 @@ var initSnake = function () {
     snake.HEAD = position;
     stage.snake = snake;
     randomDirection();
-    console.log(position);
+
     var snakeBlock = blockGenerator(params.color.black, realPosition(position));
     snakeStage.addChild(snakeBlock);
 };
 
-var initApple = function(){
+var initApple = function () {
     appleStage.removeChildren();
     var appleBlock = apple.initApple();
     appleStage.addChild(appleBlock);
