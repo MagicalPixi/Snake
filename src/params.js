@@ -11,7 +11,10 @@ var color = {
 var contant = {
   width : 44.5,
   topMargin : 30,
-  sideMargin : 20
+  sideMargin : 20,
+  intervalTime:1024,
+  addSpeedScore:20,
+  increment:5
 };
 
 module.exports = {

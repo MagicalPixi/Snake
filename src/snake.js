@@ -37,8 +37,15 @@ stage.move = function () {
     if (newHeadPosition.x === applePosition.x && newHeadPosition.y === applePosition.y) {
         stage.length++;
         background.setLength(stage.length);
-        stage.score = stage.score + 5;
+        stage.score = stage.score + params.contant.increment;
         background.setScore(stage.score);
+
+        if (stage.score>0 && stage.score%params.contant.addSpeedScore == 0){
+            clearInterval(interval);
+            stage.speed++;
+            background.setSpeed(stage.speed);
+            stage.start(params.contant.intervalTime/stage.speed);
+        }
     }
     snakeStage.removeChildren();
     //新增头部
@@ -75,12 +82,12 @@ stage.turnTo = function (direction) {
         return;
     }
     stage.direction = direction;
-}
+};
 
-stage.start = function () {
+stage.start = function (intervalTime) {
     interval = setInterval(function () {
         stage.move();
-    }, 1000);
+    }, intervalTime == undefined?params.contant.intervalTime:intervalTime);
 };
 
 stage.checkSnakePosition = function (position) {
