@@ -71,8 +71,8 @@ backgroundCT.addChild(scoreTitle);
 var score = new PIXI.Text("0", titleStyle);
 score.x = 500;
 score.y = 195;
-backgroundCT.setScore = function(score){
-    score = new PIXI.Text(score, titleStyle);
+backgroundCT.setScore = function(scoreValue){
+    score.text = scoreValue;
 }
 backgroundCT.addChild(score);
 
@@ -85,8 +85,8 @@ backgroundCT.addChild(lengthTitle);
 var length = new PIXI.Text("0", titleStyle);
 length.x = 500;
 length.y = 325;
-backgroundCT.setLength = function(length){
-    score = new PIXI.Text(length, titleStyle);
+backgroundCT.setLength = function(lengthValue){
+    length.text = lengthValue;
 }
 backgroundCT.addChild(length);
 
@@ -99,8 +99,10 @@ backgroundCT.addChild(speedTitle);
 var speed = new PIXI.Text("0", titleStyle);
 speed.x = 500;
 speed.y = 455;
-backgroundCT.setSpeed = function(speed){
-    score = new PIXI.Text(speed, titleStyle);
+backgroundCT.setSpeed = function(speedValue){
+    //backgroundCT.removeChild(speed);
+    speed.text = speedValue;
+    //backgroundCT.addChild(speed);
 }
 backgroundCT.addChild(speed);
 

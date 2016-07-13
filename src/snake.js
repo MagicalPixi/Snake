@@ -4,6 +4,7 @@
 var params = require('./params');
 var blockGenerator = require('./sprites/blockGenerator.js');
 var apple = require('./sprites/apple/index');
+var background = require('./sprites/background/index');
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
@@ -27,7 +28,7 @@ stage.move = function () {
         x: snake.HEAD.x + direction.x,
         y: snake.HEAD.y + direction.y
     };
-    if (newHeadPosition.x < 0 || newHeadPosition.x > 9 || newHeadPosition.y < 0 || newHeadPosition.y > 17) {
+    if (newHeadPosition.x < 0 || newHeadPosition.x > 9 || newHeadPosition.y < 0 || newHeadPosition.y > 17 || stage.checkSnakePosition(newHeadPosition)) {
         gameOver();
         return;
     }
@@ -35,6 +36,9 @@ stage.move = function () {
     var applePosition = apple.getApplePosition();
     if (newHeadPosition.x === applePosition.x && newHeadPosition.y === applePosition.y) {
         stage.length++;
+        background.setLength(stage.length);
+        stage.score = stage.score + 5;
+        background.setScore(stage.score);
     }
     snakeStage.removeChildren();
     //新增头部
@@ -151,6 +155,9 @@ var initSnake = function () {
 
     var snakeBlock = blockGenerator(params.color.black, realPosition(position));
     snakeStage.addChild(snakeBlock);
+    background.setScore(stage.score);
+    background.setSpeed(stage.speed);
+    background.setLength(stage.length);
 };
 
 var initApple = function () {
@@ -163,4 +170,4 @@ var container = new PIXI.Container();
 
 stage.addChild(container);
 
-module.exports = stage
+module.exports = stage;
