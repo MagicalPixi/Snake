@@ -46,8 +46,12 @@ loader.add(params.png, 'png').load(function () {
     var background = require('./sprites/background');
     stage.addChild(background);
 
+    //home
+    var home = require('./sprites/home');
+    var homeContent = home.initHome();
+    stage.addChild(homeContent);
 
-    snake.initGame();
+    /*snake.initGame();
     stage.addChild(snake);
     snake.start();
 
@@ -58,7 +62,7 @@ loader.add(params.png, 'png').load(function () {
         .on('mouseupoutside', touchEnd)
         .on('touchend', touchEnd)
         .on('touchendoutside', touchEnd);
-
+     */
     stage.render = function () {
         stage.children.map(function (child) {
             if (child.render) {
