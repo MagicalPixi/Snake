@@ -2,14 +2,14 @@
  * Created by zhouchunjie on 16/7/3.
  */
 var pixiLib = require('pixi-lib')
-var param = require('../../params')
+var params = require('../../params')
 var generator = require('../blockGenerator.js')
 var backgroundCT = new PIXI.Container();
 
 var rectangleBox = new PIXI.Graphics();
 
 backgroundCT.addChild(rectangleBox);
-rectangleBox.lineStyle(4, param.color.black, 1);
+rectangleBox.lineStyle(4, params.color.black, 1);
 // 背景框
 rectangleBox.moveTo(10,20);
 rectangleBox.lineTo(475, 20);
@@ -24,7 +24,7 @@ var initBlocks = function(){
     for (var i = 0; i < 10; i ++) {
         backgroundCT.blocks[i] = []
         for (var j = 0; j < 18; j ++) {
-            var block = generator(param.color.cyan, position(i, j))
+            var block = generator(params.color.cyan, position(i, j))
             block.indexPath = {x:i, y:j}
             backgroundCT.blocks[i][j] = block
             backgroundCT.addChild(block)
@@ -34,8 +34,8 @@ var initBlocks = function(){
 
 var position = function(i, j) {
     return {
-        x: param.contant.sideMargin + param.contant.width * i,
-        y: param.contant.topMargin + param.contant.width * j
+        x: params.contant.sideMargin + params.contant.width * i,
+        y: params.contant.topMargin + params.contant.width * j
     }
 }
 initBlocks();
@@ -105,5 +105,54 @@ backgroundCT.setSpeed = function(speedValue){
     //backgroundCT.addChild(speed);
 }
 backgroundCT.addChild(speed);
+
+var buttonTextStyle = {
+    font : 'italic 30px Arial',
+    fill : '#010600',
+    wordWrap : true,
+    wordWrapWidth : 440
+};
+
+//buttons
+var startButton = new PIXI.Graphics();
+backgroundCT.addChild(startButton);
+startButton.lineStyle(2, params.color.black, 1);
+startButton.beginFill(params.color.cyan, 0.25);
+startButton.drawRoundedRect(485, 671, 120, 50, 15);
+startButton.endFill();
+
+var startText = new PIXI.Text('开始',buttonTextStyle);
+startText.x = 510;
+startText.y = 680;
+backgroundCT.addChild(startText);
+
+
+
+var helpButton = new PIXI.Graphics();
+backgroundCT.addChild(helpButton);
+helpButton.lineStyle(2, params.color.black, 1);
+helpButton.beginFill(params.color.cyan, 0.25);
+helpButton.drawRoundedRect(485, 731, 120, 50, 15);
+helpButton.endFill();
+
+var helpText = new PIXI.Text('帮助',buttonTextStyle);
+helpText.x = 510;
+helpText.y = 740;
+backgroundCT.addChild(helpText);
+
+
+var shareButton = new PIXI.Graphics();
+backgroundCT.addChild(shareButton);
+
+startButton.lineStyle(2, params.color.black, 1);
+startButton.beginFill(params.color.cyan, 0.25);
+startButton.drawRoundedRect(485, 791, 120, 50, 15);
+startButton.endFill();
+
+var shareText = new PIXI.Text('分享',buttonTextStyle);
+shareText.x = 510;
+shareText.y = 800;
+backgroundCT.addChild(shareText);
+
 
 module.exports = backgroundCT;
