@@ -46,7 +46,7 @@ loader.add(params.png, 'png').load(function () {
     var background = require('./sprites/background');
     stage.addChild(background);
 
-    //home
+    //home 
     //var home = require('./sprites/home');
     //var homeContent = home.initHome();
     //stage.addChild(homeContent);
