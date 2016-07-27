@@ -47,16 +47,76 @@ loader.add(params.png, 'png').load(function () {
     stage.addChild(background);
 
     //home 
-    //var home = require('./sprites/home');
-    //var homeContent = home.initHome();
-    //stage.addChild(homeContent);
+    var home = require('./sprites/home');
+    var homeContent = home.initHome();
+    stage.addChild(homeContent);
 
+    var buttonTextStyle = {
+        font: 'italic 30px Arial',
+        fill: '#010600',
+        wordWrap: true,
+        wordWrapWidth: 440
+    };
+
+//buttons
+//开始
+    var startButton = new PIXI.Graphics();
+    stage.addChild(startButton);
+    startButton.lineStyle(2, params.color.black, 1);
+    startButton.beginFill(params.color.cyan, 0.25);
+    startButton.drawRoundedRect(485, 671, 120, 50, 15);
+    startButton.endFill();
+
+    var startText = new PIXI.Text('开始', buttonTextStyle);
+    startText.x = 510;
+    startText.y = 680;
+    stage.addChild(startText);
+
+    startButton.interactive = true;
+    startButton.on('touchend',startGame)
+        .on('mousedown',startGame);
+    var startGame = function(){
+        console.log('click start');
+    };
+
+//帮助
+    var helpButton = new PIXI.Graphics();
+    stage.addChild(helpButton);
+    helpButton.lineStyle(2, params.color.black, 1);
+    helpButton.beginFill(params.color.cyan, 0.25);
+    helpButton.drawRoundedRect(485, 731, 120, 50, 15);
+    helpButton.endFill();
+
+    var helpText = new PIXI.Text('帮助', buttonTextStyle);
+    helpText.x = 510;
+    helpText.y = 740;
+    stage.addChild(helpText);
+
+    startButton.interactive = true;
+
+//分享
+    var shareButton = new PIXI.Graphics();
+    stage.addChild(shareButton);
+
+    shareButton.lineStyle(2, params.color.black, 1);
+    shareButton.beginFill(params.color.cyan, 0.25);
+    shareButton.drawRoundedRect(485, 791, 120, 50, 15);
+    shareButton.endFill();
+
+    var shareText = new PIXI.Text('分享', buttonTextStyle);
+    shareText.x = 510;
+    shareText.y = 800;
+    stage.addChild(shareText);
+
+    shareButton.interactive = true;
+
+    stage.interactive = true;
     /*
     snake.initGame();
     stage.addChild(snake);
     snake.start();
 
-    stage.interactive = true;
+
     stage.on('mousedown', touchStart)
         .on('touchstart', touchStart)
         .on('mouseup', touchEnd)
