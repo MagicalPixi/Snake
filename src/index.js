@@ -92,7 +92,12 @@ loader.add(params.png, 'png').load(function () {
     helpText.y = 740;
     stage.addChild(helpText);
 
-    startButton.interactive = true;
+    helpButton.interactive = true;
+    helpButton.on('touchend',showHelp)
+        .on('mousedown',showHelp);
+    var showHelp = function(){
+        console.log('click help');
+    };
 
 //分享
     var shareButton = new PIXI.Graphics();
@@ -109,6 +114,11 @@ loader.add(params.png, 'png').load(function () {
     stage.addChild(shareText);
 
     shareButton.interactive = true;
+    shareButton.on('touchend',shareGame)
+        .on('mousedown',shareGame);
+    var shareGame = function(){
+        console.log('click share');
+    };
 
     stage.interactive = true;
     /*
