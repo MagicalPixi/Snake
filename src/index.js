@@ -60,6 +60,11 @@ loader.add(params.png, 'png').load(function () {
 
 //buttons
 //开始
+    var startText = new PIXI.Text('开始', buttonTextStyle);
+    startText.x = 510;
+    startText.y = 680;
+    stage.addChild(startText);
+
     var startButton = new PIXI.Graphics();
     stage.addChild(startButton);
     startButton.lineStyle(2, params.color.black, 1);
@@ -67,19 +72,21 @@ loader.add(params.png, 'png').load(function () {
     startButton.drawRoundedRect(485, 671, 120, 50, 15);
     startButton.endFill();
 
-    var startText = new PIXI.Text('开始', buttonTextStyle);
-    startText.x = 510;
-    startText.y = 680;
-    stage.addChild(startText);
 
-    startButton.interactive = true;
-    startButton.on('touchend',startGame)
-        .on('mousedown',startGame);
-    var startGame = function(){
+    var startGame =  function (){
         console.log('click start');
     };
 
+    startButton.interactive = true;
+    startButton.on('touchend',startGame);
+    startButton.on('mousedown',startGame);
+
 //帮助
+    var helpText = new PIXI.Text('帮助', buttonTextStyle);
+    helpText.x = 510;
+    helpText.y = 740;
+    stage.addChild(helpText);
+
     var helpButton = new PIXI.Graphics();
     stage.addChild(helpButton);
     helpButton.lineStyle(2, params.color.black, 1);
@@ -87,19 +94,23 @@ loader.add(params.png, 'png').load(function () {
     helpButton.drawRoundedRect(485, 731, 120, 50, 15);
     helpButton.endFill();
 
-    var helpText = new PIXI.Text('帮助', buttonTextStyle);
-    helpText.x = 510;
-    helpText.y = 740;
-    stage.addChild(helpText);
 
-    helpButton.interactive = true;
-    helpButton.on('touchend',showHelp)
-        .on('mousedown',showHelp);
     var showHelp = function(){
         console.log('click help');
     };
 
+    helpButton.interactive = true;
+    helpButton.on('touchend',showHelp)
+        .on('mousedown',showHelp);
+
 //分享
+
+
+    var shareText = new PIXI.Text('分享', buttonTextStyle);
+    shareText.x = 510;
+    shareText.y = 800;
+    stage.addChild(shareText);
+
     var shareButton = new PIXI.Graphics();
     stage.addChild(shareButton);
 
@@ -108,17 +119,13 @@ loader.add(params.png, 'png').load(function () {
     shareButton.drawRoundedRect(485, 791, 120, 50, 15);
     shareButton.endFill();
 
-    var shareText = new PIXI.Text('分享', buttonTextStyle);
-    shareText.x = 510;
-    shareText.y = 800;
-    stage.addChild(shareText);
+    var shareGame = function(){
+        console.log('click share');
+    };
 
     shareButton.interactive = true;
     shareButton.on('touchend',shareGame)
         .on('mousedown',shareGame);
-    var shareGame = function(){
-        console.log('click share');
-    };
 
     stage.interactive = true;
     /*
