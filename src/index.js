@@ -4,20 +4,20 @@ var params = require('./params')
 var loader = require('./loader')
 var snake = require('./snake');
 var currentDistance = 0
-var touchStartPos=new Object(),touchEndPos=new Object();
+var touchStartPos = new Object(), touchEndPos = new Object();
 resetSize()
 var renderer = PIXI.autoDetectRenderer(640, aspect * 640, {
     antialias: true,
     transparent: true
 });
 document.body.appendChild(renderer.view)
-document.onkeydown=function(e){
-    e=window.event||e;
+document.onkeydown = function (e) {
+    e = window.event || e;
     var direction = {
-        x:0,
-        y:0
+        x: 0,
+        y: 0
     }
-    switch(e.keyCode){
+    switch (e.keyCode) {
         case 37: //左键
             direction.x = -1;
             snake.turnTo(direction);
@@ -73,13 +73,23 @@ loader.add(params.png, 'png').load(function () {
     startButton.endFill();
 
 
-    var startGame =  function (){
-        console.log('click start');
+    var startGame = function () {
+        stage.removeChild(homeContent);
+        snake.initGame();
+        stage.addChild(snake);
+        snake.start();
+
+        stage.on('mousedown', touchStart)
+            .on('touchstart', touchStart)
+            .on('mouseup', touchEnd)
+            .on('mouseupoutside', touchEnd)
+            .on('touchend', touchEnd)
+            .on('touchendoutside', touchEnd);
     };
 
     startButton.interactive = true;
-    startButton.on('touchend',startGame);
-    startButton.on('mousedown',startGame);
+    startButton.on('touchend', startGame);
+    startButton.on('mousedown', startGame);
 
 //帮助
     var helpText = new PIXI.Text('帮助', buttonTextStyle);
@@ -95,13 +105,13 @@ loader.add(params.png, 'png').load(function () {
     helpButton.endFill();
 
 
-    var showHelp = function(){
-        console.log('click help');
+    var showHelp = function () {
+        //TODO 帮助图
     };
 
     helpButton.interactive = true;
-    helpButton.on('touchend',showHelp)
-        .on('mousedown',showHelp);
+    helpButton.on('touchend', showHelp)
+        .on('mousedown', showHelp);
 
 //分享
 
@@ -119,28 +129,16 @@ loader.add(params.png, 'png').load(function () {
     shareButton.drawRoundedRect(485, 791, 120, 50, 15);
     shareButton.endFill();
 
-    var shareGame = function(){
-        console.log('click share');
+    var shareGame = function () {
+        pixiLib.utils.shareGuide();
     };
 
     shareButton.interactive = true;
-    shareButton.on('touchend',shareGame)
-        .on('mousedown',shareGame);
+    shareButton.on('touchend', shareGame)
+        .on('mousedown', shareGame);
 
     stage.interactive = true;
-    /*
-    snake.initGame();
-    stage.addChild(snake);
-    snake.start();
 
-
-    stage.on('mousedown', touchStart)
-        .on('touchstart', touchStart)
-        .on('mouseup', touchEnd)
-        .on('mouseupoutside', touchEnd)
-        .on('touchend', touchEnd)
-        .on('touchendoutside', touchEnd);
-*/
     stage.render = function () {
         stage.children.map(function (child) {
             if (child.render) {
@@ -156,13 +154,13 @@ loader.add(params.png, 'png').load(function () {
     }
 });
 
-var touchStart = function(event){
+var touchStart = function (event) {
     var newPosition = event.data.global;
     touchStartPos.x = newPosition.x;
     touchStartPos.y = newPosition.y;
 };
 
-var touchEnd = function(event){
+var touchEnd = function (event) {
     var newPosition = event.data.global;
     touchEndPos.x = newPosition.x;
     touchEndPos.y = newPosition.y;
@@ -173,16 +171,16 @@ var touchEnd = function(event){
     };
 
     var direction = {
-        x:0,
-        y:0
+        x: 0,
+        y: 0
     };
 
-    if (Math.abs(temp.x) > Math.abs(temp.y)){
-        direction.x = temp.x/Math.abs(temp.x);
+    if (Math.abs(temp.x) > Math.abs(temp.y)) {
+        direction.x = temp.x / Math.abs(temp.x);
         direction.y = 0;
-    }else if (Math.abs(temp.x) < Math.abs(temp.y)){
+    } else if (Math.abs(temp.x) < Math.abs(temp.y)) {
         direction.x = 0;
-        direction.y = temp.y/Math.abs(temp.y);
+        direction.y = temp.y / Math.abs(temp.y);
     }
     snake.turnTo(direction);
 };
