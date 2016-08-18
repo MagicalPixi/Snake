@@ -37,14 +37,15 @@ stage.move = function () {
     if (newHeadPosition.x === applePosition.x && newHeadPosition.y === applePosition.y) {
         stage.length++;
         background.setLength(stage.length);
-        stage.score = stage.score + params.contant.increment;
+        stage.score = stage.score + params.constant.increment;
         background.setScore(stage.score);
+        updateHighestScore();
 
-        if (stage.score>0 && stage.score%params.contant.addSpeedScore == 0){
+        if (stage.score > 0 && stage.score % params.constant.addSpeedScore == 0) {
             clearInterval(interval);
             stage.speed++;
             background.setSpeed(stage.speed);
-            stage.start(params.contant.intervalTime/stage.speed);
+            stage.start(params.constant.intervalTime / (stage.speed));
         }
     }
     snakeStage.removeChildren();
@@ -81,13 +82,17 @@ stage.turnTo = function (direction) {
     if (direction.x === 0 && direction.y === 0) {
         return;
     }
+    if ((direction.x === stage.direction.x && direction.y === -stage.direction.y ) || (direction.x === -stage.direction.x && direction.y === stage.direction.y )) {
+        //无视与移动方向相反的方向变换
+        return;
+    }
     stage.direction = direction;
 };
 
 stage.start = function (intervalTime) {
     interval = setInterval(function () {
         stage.move();
-    }, intervalTime == undefined?params.contant.intervalTime:intervalTime);
+    }, intervalTime == undefined ? params.constant.intervalTime : intervalTime);
 };
 
 stage.checkSnakePosition = function (position) {
@@ -99,15 +104,34 @@ stage.checkSnakePosition = function (position) {
     return false;
 };
 
+stage.setHighestScore = function (highestScore) {
+    stage.highestScore = highestScore;
+};
+
+stage.getHighestScore = function () {
+    return stage.highestScore;
+}
+
 var gameOver = function () {
     console.log("game over");
+    // updateHighestScore();
     clearInterval(interval);
-}
+    //生成当前分数
+
+};
+
+var updateHighestScore = function () {
+    //对比最高分
+    if (stage.score > stage.highestScore) {
+        stage.highestScore = stage.score;
+    }
+    background.setHighestScore(stage.highestScore);
+};
 
 var realPosition = function (position) {
     return {
-        x: params.contant.sideMargin + params.contant.width * position.x,
-        y: params.contant.topMargin + params.contant.width * position.y
+        x: params.constant.sideMargin + params.constant.width * position.x,
+        y: params.constant.topMargin + params.constant.width * position.y
     }
 }
 
@@ -146,6 +170,7 @@ var randomDirection = function () {
 var initSnake = function () {
     snakeStage.removeChildren();
     stage.score = 0;
+    stage.highestScore = stage.highestScore === undefined? 0:stage.highestScore;
     stage.realLength = 1;
     stage.length = 5;
     stage.speed = 1;
@@ -165,6 +190,7 @@ var initSnake = function () {
     background.setScore(stage.score);
     background.setSpeed(stage.speed);
     background.setLength(stage.length);
+    background.setHighestScore(stage.highestScore);
 };
 
 var initApple = function () {

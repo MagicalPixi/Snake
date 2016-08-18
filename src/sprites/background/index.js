@@ -34,8 +34,8 @@ var initBlocks = function () {
 
 var position = function (i, j) {
     return {
-        x: params.contant.sideMargin + params.contant.width * i,
-        y: params.contant.topMargin + params.contant.width * j
+        x: params.constant.sideMargin + params.constant.width * i,
+        y: params.constant.topMargin + params.constant.width * j
     }
 }
 initBlocks();
@@ -58,8 +58,8 @@ var highestScore = new PIXI.Text("0", titleStyle);
 highestScore.x = 500;
 highestScore.y = 65;
 backgroundCT.setHighestScore = function (score) {
-    highestScore = new PIXI.Text(score, titleStyle);
-}
+    highestScore.text = score;
+};
 backgroundCT.addChild(highestScore);
 
 //分数

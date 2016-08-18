@@ -1,10 +1,6 @@
 /**
  * Created by zhouchunjie on 16/7/16.
  */
-/**
- * Created by zhouchunjie on 16/7/7.
- */
-
 var blockGenerator = require('../blockGenerator.js');
 var params = require('../../params');
 
@@ -14,15 +10,14 @@ var content = new PIXI.Container();
 
 var realPosition = function (position) {
     return {
-        x: params.contant.sideMargin + params.contant.width * position.x,
-        y: params.contant.topMargin + params.contant.width * position.y
+        x: params.constant.sideMargin + params.constant.width * position.x,
+        y: params.constant.topMargin + params.constant.width * position.y
     }
 }
 
-//初始化苹果位置
+//初始化首页
 stage.initHome = function () {
     generateHomeContent();
-    //生成苹果
     return content;
 };
 

@@ -9,8 +9,8 @@ var stage = new PIXI.Container();
 
 var realPosition = function (position) {
     return {
-        x: params.contant.sideMargin + params.contant.width * position.x,
-        y: params.contant.topMargin + params.contant.width * position.y
+        x: params.constant.sideMargin + params.constant.width * position.x,
+        y: params.constant.topMargin + params.constant.width * position.y
     }
 }
 

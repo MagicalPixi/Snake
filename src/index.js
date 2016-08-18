@@ -47,9 +47,12 @@ loader.add(params.png, 'png').load(function () {
     stage.addChild(background);
 
     //home 
-    var home = require('./sprites/home');
-    var homeContent = home.initHome();
-    stage.addChild(homeContent);
+    // var home = require('./sprites/home');
+    // var homeContent = home.initHome();
+    // stage.addChild(homeContent);
+    var number = require('./sprites/number');
+    var numberContent = number.generateNumber(15);
+    stage.addChild(numberContent);
 
     var buttonTextStyle = {
         font: 'italic 30px Arial',
