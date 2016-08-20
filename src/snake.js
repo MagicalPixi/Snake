@@ -15,9 +15,13 @@ stage.addChild(snakeStage);
 var appleStage = new PIXI.Container();
 stage.addChild(appleStage);
 
+var gameOverStage = new PIXI.Container();
+stage.addChild(gameOverStage);
+
 stage.initGame = function () {
     initSnake();
     initApple();
+    gameOverStage.removeChildren();
 };
 
 stage.move = function () {
@@ -110,13 +114,85 @@ stage.setHighestScore = function (highestScore) {
 
 stage.getHighestScore = function () {
     return stage.highestScore;
-}
+};
 
+var dieBody;
 var gameOver = function () {
     console.log("game over");
-    // updateHighestScore();
+    //闪烁蛇的位置,表示已经die
     clearInterval(interval);
-    //生成当前分数
+    var count = 0;
+    dieBody = setInterval(function () {
+        if (count % 2 === 0) {
+            //clear snake
+            snakeStage.removeChildren();
+        } else {
+            var snake = stage.snake;
+            for (var key in snake) {
+                var snakeBlock = blockGenerator(params.color.black, realPosition(snake[key]));
+                snakeStage.addChild(snakeBlock);
+            }
+        }
+        count++;
+        if (count == 4) {
+            clearInterval(dieBody);
+            //显示Game Over
+            snakeStage.removeChildren();
+            appleStage.removeChildren();
+            gameOverStage.removeChildren();
+            showGameOver();
+        }
+    }, 500);
+};
+
+var showGameOver = function () {
+    var charG = [
+        '0-0', '1-0', '2-0', '3-0',
+        '0-1', '3-1',
+        '0-2',
+        '0-3', '2-3', '3-3',
+        '0-4', '3-4',
+        '0-5', '1-5', '2-5', '3-5'
+    ];
+
+    var charMouse = [
+        '0-0','5-0',
+        '1-1', '2-1', '3-1','4-1'
+    ];
+
+    var offsetY = 3;
+    var offsetX = 0;
+
+    for (var i in charG) {
+        var splitArr = charG[i].split('-');
+        var block = blockGenerator(params.color.black, realPosition({
+            x: offsetX + parseInt(splitArr[0]),
+            y: offsetY + parseInt(splitArr[1])
+        }));
+        gameOverStage.addChild(block);
+    }
+
+    offsetX = 6;
+    for (var i in charG) {
+        var splitArr = charG[i].split('-');
+        var block = blockGenerator(params.color.black, realPosition({
+            x: offsetX + parseInt(splitArr[0]),
+            y: offsetY + parseInt(splitArr[1])
+        }));
+        gameOverStage.addChild(block);
+    }
+
+    offsetX = 2;
+    offsetY = 13;
+    for (var i in charMouse) {
+        var splitArr = charMouse[i].split('-');
+        var block = blockGenerator(params.color.black, realPosition({
+            x: offsetX + parseInt(splitArr[0]),
+            y: offsetY + parseInt(splitArr[1])
+        }));
+        gameOverStage.addChild(block);
+    }
+
 
 };
 
@@ -164,13 +240,13 @@ var randomDirection = function () {
             };
             break;
     }
-    ;
 }
 //初始化贪吃蛇开始的位置
 var initSnake = function () {
     snakeStage.removeChildren();
+    gameOverStage.removeChildren();
     stage.score = 0;
-    stage.highestScore = stage.highestScore === undefined? 0:stage.highestScore;
+    stage.highestScore = stage.highestScore === undefined ? 0 : stage.highestScore;
     stage.realLength = 1;
     stage.length = 5;
     stage.speed = 1;
@@ -197,7 +273,7 @@ var initApple = function () {
     appleStage.removeChildren();
     var appleBlock = apple.initApple();
     appleStage.addChild(appleBlock);
-}
+};
 
 var container = new PIXI.Container();
 

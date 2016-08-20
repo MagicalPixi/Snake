@@ -103,7 +103,7 @@ backgroundCT.setSpeed = function (speedValue) {
     //backgroundCT.removeChild(speed);
     speed.text = speedValue;
     //backgroundCT.addChild(speed);
-}
+};
 backgroundCT.addChild(speed);
 
 module.exports = backgroundCT;
