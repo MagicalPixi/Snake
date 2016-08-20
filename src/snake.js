@@ -5,7 +5,7 @@ var params = require('./params');
 var blockGenerator = require('./sprites/blockGenerator.js');
 var apple = require('./sprites/apple/index');
 var background = require('./sprites/background/index');
-
+var isStart = false;
 // create the root of the scene graph
 var stage = new PIXI.Container();
 
@@ -19,23 +19,32 @@ var gameOverStage = new PIXI.Container();
 stage.addChild(gameOverStage);
 
 stage.initGame = function () {
-    initSnake();
-    initApple();
-    gameOverStage.removeChildren();
+    if (!isStart) {
+        isStart = true;
+        initSnake();
+        initApple();
+        gameOverStage.removeChildren();
+    }
 };
+
+stage.isStarting = function () {
+    return isStart;
+}
 
 stage.move = function () {
     var snake = stage.snake;
-    var direction = stage.direction;
+    var direction = stage.directionTemp;
     //生成新蛇头位置
     var newHeadPosition = {
         x: snake.HEAD.x + direction.x,
         y: snake.HEAD.y + direction.y
     };
     if (newHeadPosition.x < 0 || newHeadPosition.x > 9 || newHeadPosition.y < 0 || newHeadPosition.y > 17 || stage.checkSnakePosition(newHeadPosition)) {
+        isStart = false;
         gameOver();
         return;
     }
+    stage.direction = direction;
     //获取苹果位置,如果蛇头与苹果重合,蛇长度+1
     var applePosition = apple.getApplePosition();
     if (newHeadPosition.x === applePosition.x && newHeadPosition.y === applePosition.y) {
@@ -86,11 +95,12 @@ stage.turnTo = function (direction) {
     if (direction.x === 0 && direction.y === 0) {
         return;
     }
+
     if ((direction.x === stage.direction.x && direction.y === -stage.direction.y ) || (direction.x === -stage.direction.x && direction.y === stage.direction.y )) {
         //无视与移动方向相反的方向变换
         return;
     }
-    stage.direction = direction;
+    stage.directionTemp = direction;
 };
 
 stage.start = function (intervalTime) {
@@ -156,8 +166,8 @@ var showGameOver = function () {
     ];
 
     var charMouse = [
-        '0-0','5-0',
-        '1-1', '2-1', '3-1','4-1'
+        '0-0', '5-0',
+        '1-1', '2-1', '3-1', '4-1'
     ];
 
     var offsetY = 3;
@@ -240,6 +250,11 @@ var randomDirection = function () {
             };
             break;
     }
+
+    stage.directionTemp = {
+        x: stage.direction.x,
+        y: stage.direction.y
+    };
 }
 //初始化贪吃蛇开始的位置
 var initSnake = function () {

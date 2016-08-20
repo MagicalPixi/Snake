@@ -74,17 +74,19 @@ loader.add(params.png, 'png').load(function () {
 
 
     var startGame = function () {
-        stage.removeChild(homeContent);
-        snake.initGame();
-        stage.addChild(snake);
-        snake.start();
+        if (!snake.isStarting()) {
+            stage.removeChild(homeContent);
+            snake.initGame();
+            stage.addChild(snake);
+            snake.start();
 
-        stage.on('mousedown', touchStart)
-            .on('touchstart', touchStart)
-            .on('mouseup', touchEnd)
-            .on('mouseupoutside', touchEnd)
-            .on('touchend', touchEnd)
-            .on('touchendoutside', touchEnd);
+            stage.on('mousedown', touchStart)
+                .on('touchstart', touchStart)
+                .on('mouseup', touchEnd)
+                .on('mouseupoutside', touchEnd)
+                .on('touchend', touchEnd)
+                .on('touchendoutside', touchEnd);
+        }
     };
 
     startButton.interactive = true;
@@ -104,9 +106,20 @@ loader.add(params.png, 'png').load(function () {
     helpButton.drawRoundedRect(485, 731, 120, 50, 15);
     helpButton.endFill();
 
+    var helpContainer = new PIXI.Container();
+
+    var hideHelp = function () {
+        stage.removeChild(helpContainer);
+    };
 
     var showHelp = function () {
-        //TODO 帮助图
+        stage.addChild(helpContainer);
+        var helpPage = PIXI.Sprite.fromImage('../imgs/help.png');
+        helpContainer.addChild(helpPage);
+
+        helpContainer.interactive =true;
+        helpContainer.on('touchend', hideHelp)
+            .on('mousedown', hideHelp);
     };
 
     helpButton.interactive = true;
@@ -114,8 +127,6 @@ loader.add(params.png, 'png').load(function () {
         .on('mousedown', showHelp);
 
 //分享
-
-
     var shareText = new PIXI.Text('分享', buttonTextStyle);
     shareText.x = 510;
     shareText.y = 800;
