@@ -128,7 +128,6 @@ stage.getHighestScore = function () {
 
 var dieBody;
 var gameOver = function () {
-    console.log("game over");
     //闪烁蛇的位置,表示已经die
     clearInterval(interval);
     var count = 0;
